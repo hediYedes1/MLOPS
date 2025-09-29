@@ -1,0 +1,41 @@
+#1. Déclaration des variables
+PYTHON=python3
+ENV_NAME=mlops_env
+REQUIREMENTS=requirements.txt
+MODEL_NAME=classifier.joblib
+
+#2. Configuration de l'environnement
+setup:
+	@echo "Création de l'environnement virtuel et installation des dépendances"
+	@$(PYTHON) -m venv $(ENV_NAME)
+	@source $(ENV_NAME)/bin/activate && pip install -r $(REQUIREMENTS)
+
+#3. Qualité du code, formatage automatique, sécurité
+lint:
+	@echo "Formatage automatique du code..."
+	@black .
+	@echo "Vérification de la qualité du code..."
+	@flake8 .
+	@echo "Vérification de la sécurité du code..."
+	@bandit -r .
+
+#4. Préparation des données
+data:
+	@echo "Préparation des données..."
+	@source $(ENV_NAME)/bin/activate && python main.py --action prepare
+	@echo "✅ Données préparées et prêtes pour l'entraînement"
+
+#5. Entraînement du modèle
+train:
+	@echo "Entraînement du modèle..."
+	@source $(ENV_NAME)/bin/activate && python main.py --action train
+
+#6. Tests unitaires (exemple avec pytest)
+test:
+	@echo "Exécution des tests..."
+	@source $(ENV_NAME)/bin/activate && pytest tests/
+
+#7. Évaluation du modèle
+evaluate:
+	@echo "Évaluation du modèle..."
+	@source $(ENV_NAME)/bin/activate && python main.py --action evaluate
