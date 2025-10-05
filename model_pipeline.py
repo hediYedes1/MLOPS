@@ -11,22 +11,23 @@ import joblib
 
 def prepare_data():
 
-    data_filename = 'Churn_Modelling.csv'
-    
+    data_filename = "Churn_Modelling.csv"
+
     df = pd.read_csv(data_filename)
 
-   
     encoder = LabelEncoder()
-    df['Gender'] = encoder.fit_transform(df['Gender'])
+    df["Gender"] = encoder.fit_transform(df["Gender"])
 
-    columns_to_drop = ['Surname', 'Geography']
+    columns_to_drop = ["Surname", "Geography"]
     df = df.drop(columns_to_drop, axis=1)
 
-    X = df.drop(['Exited'], axis=1)
-    y = df['Exited']
-    X = X.drop(columns=['RowNumber', 'CustomerId'])
+    X = df.drop(["Exited"], axis=1)
+    y = df["Exited"]
+    X = X.drop(columns=["RowNumber", "CustomerId"])
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=1
+    )
 
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
@@ -59,7 +60,7 @@ def evaluate_model(model, X_test, y_test):
 def save_model(model, filename="classifier.joblib"):
 
     joblib.dump(model, filename)
-    print(f" Modèle sauvegardé dans {filename}")
+    print(f" Modèle sauvegardé avec succes dans {filename}")
 
 
 def load_model(filename="classifier.joblib"):
