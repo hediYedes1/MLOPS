@@ -1,15 +1,33 @@
 # main.py
 import argparse
-from model_pipeline import prepare_data, train_model, evaluate_model, save_model, load_model
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, mean_squared_error
+from model_pipeline import (
+    prepare_data,
+    train_model,
+    evaluate_model,
+    save_model,
+    load_model,
+)
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    mean_squared_error,
+)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Pipeline ML - Churn Prediction")
-    parser.add_argument("--action", type=str, required=True,
-                        choices=["prepare", "train", "evaluate", "predict", "all"],
-                        help="Étape à exécuter")
-    parser.add_argument("--model", type=str, default="classifier.joblib",
-                        help="Nom du fichier modèle")
+    parser.add_argument(
+        "--action",
+        type=str,
+        required=True,
+        choices=["prepare", "train", "evaluate", "predict", "all"],
+        help="Étape à exécuter",
+    )
+    parser.add_argument(
+        "--model", type=str, default="classifier.joblib", help="Nom du fichier modèle"
+    )
     args = parser.parse_args()
 
     if args.action == "prepare":
@@ -32,7 +50,7 @@ def main():
         model = load_model(args.model)
         sample = [[850, 0, 43, 2, 125510.82, 1, 1, 1, 79084.10]]
         pred = model.predict(sample)
-        print(f"✅ Prédiction pour l’échantillon : {pred}")
+        print(f"✅ Prédiction pour l'échantillon est : {pred}")
 
     elif args.action == "all":
         # Préparer
@@ -65,7 +83,7 @@ def main():
         # Prédiction exemple
         sample = [[850, 0, 43, 2, 125510.82, 1, 1, 1, 79084.10]]
         pred = loaded_model.predict(sample)
-        print(f"\n✅ Prédiction pour l’échantillon : {pred}")
+        print(f"\n✅ Prédiction pour l'échantillon : {pred}")
 
 
 if __name__ == "__main__":
